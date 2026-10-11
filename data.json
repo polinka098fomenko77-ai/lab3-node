@@ -1,0 +1,29 @@
+{
+  "name": "Steve",
+  "class": "шахтар",
+  "level": 30,
+  "stats": { "health": 20, "hunger": 18, "armor": 15, "experience": 1395 },
+  "inventory": [
+    { "id": 1, "name": "Алмазний меч", "purpose": "зброя", "equipped": true,
+      "stats": { "damage": 7, "durability": 1561,
+                 "enchantments": ["Гострота V", "Невгамовність III"] } },
+    { "id": 2, "name": "Алмазна кирка", "purpose": "інструмент", "equipped": true,
+      "stats": { "durability": 1561, "enchantments": ["Ефективність V", "Везіння III"] } },
+    { "id": 3, "name": "Алмазний нагрудник", "purpose": "броня", "equipped": true,
+      "stats": { "defense": 8, "durability": 528, "enchantments": [] } },
+    { "id": 4, "name": "Смажена яловичина", "purpose": "їжа", "equipped": false,
+      "stats": null },
+    { "id": 5, "name": "Факел", "purpose": "блок", "equipped": false,
+      "stats": null },
+    { "id": 6, "name": "Лук", "purpose": "зброя", "equipped": false,
+      "stats": { "damage": 9, "durability": 385, "enchantments": ["Сила III"] } }
+  ],
+  "skills": [
+    { "id": 1, "name": "Майнінг", "level": 5, "description": "Швидший видобуток руд",
+      "requires": { "tool": "кирка" } },
+    { "id": 2, "name": "Зачарування", "level": 3, "description": "Накладання чарів на предмети",
+      "requires": { "tool": "стіл зачарування" } },
+    { "id": 3, "name": "Риболовля", "level": 2, "description": "Ловити рибу й скарби",
+      "requires": { "tool": "вудка" } }
+  ]
+}
