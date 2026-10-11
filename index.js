@@ -47,4 +47,40 @@ function findById(list, id, label) {
   return item;
 }
 
+program
+  .command('list')
+  .description('показати список предметів інвентарю')
+  .option('-l, --limit <n>', 'максимальна кількість записів', parsePositiveInt)
+  .action((options) => {
+    const { inventory } = loadData();
+    const shown = options.limit ? inventory.slice(0, options.limit) : inventory;
+    shown.forEach(i => console.log(`${i.id}. ${i.name} (${i.purpose})`));
+  });
+
+program
+  .command('item')
+  .description('показати предмет інвентарю повністю')
+  .argument('<id>', 'ідентифікатор предмета', parsePositiveInt)
+  .action((id) => {
+    console.log(JSON.stringify(findById(loadData().inventory, id, 'предмет'), null, 2));
+  });
+
+program
+  .command('field')
+  .description('показати поле предмета (напр. stats.damage або stats.enchantments.0)')
+  .argument('<id>', 'ідентифікатор предмета', parsePositiveInt)
+  .argument('<path>', 'шлях до поля через крапку')
+  .action((id, path) => {
+    let value = findById(loadData().inventory, id, 'предмет');
+    for (const key of path.split('.')) {
+      if (value === null || typeof value !== 'object' || !Object.hasOwn(value, key)) {
+        program.error(`поле "${path}" відсутнє у предмета ${id}.`);
+      }
+      value = value[key];
+    }
+    console.log(value === null
+      ? 'null (поле є, але значення порожнє)'
+      : JSON.stringify(value));
+  });
+
 program.parse();
