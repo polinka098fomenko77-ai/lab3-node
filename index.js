@@ -83,4 +83,47 @@ program
       : JSON.stringify(value));
   });
 
+program
+  .command('character')
+  .description('показати рівень і характеристики персонажа')
+  .action(() => {
+    const { name, class: profession, level, stats } = loadData();
+    console.log(`${name} (${profession}), рівень ${level}`);
+    for (const [key, value] of Object.entries(stats)) {
+      console.log(`  ${STAT_LABELS[key] ?? key}: ${value}`);
+    }
+  });
+
+program
+  .command('inventory')
+  .description('інвентар з відбором за призначенням та екіпіруванням')
+  .option('-p, --purpose <type>', 'призначення: зброя, інструмент, броня, їжа, блок')
+  .option('-e, --equipped', 'показати лише екіпіровані предмети')
+  .action((options) => {
+    const result = loadData().inventory.filter(i =>
+      (!options.purpose || i.purpose === options.purpose) &&
+      (!options.equipped || i.equipped === true));
+    if (result.length === 0) {
+      console.log('предметів за вказаними умовами не знайдено.');
+      return;
+    }
+    result.forEach(i => {
+      const mark = i.equipped ? ' (екіпіровано)' : '';
+      const enchants = i.stats?.enchantments?.length
+        ? `, чари: ${i.stats.enchantments.join(', ')}` : '';
+      console.log(`${i.id}. ${i.name} [${i.purpose}]${mark}${enchants}`);
+    });
+  });
+
+program
+  .command('skill')
+  .description('показати відомості про навичку')
+  .argument('<name>', 'назва навички (або її частина)')
+  .action((name) => {
+    const q = name.toLowerCase();
+    const skill = loadData().skills.find(s => s.name.toLowerCase().includes(q));
+    if (!skill) program.error(`навичку "${name}" не знайдено.`);
+    console.log(JSON.stringify(skill, null, 2));
+  });
+
 program.parse();
