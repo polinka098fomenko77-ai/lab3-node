@@ -21,5 +21,6 @@
   "homepage": "https://github.com/polinka098fomenko77-ai/lab3-node#readme",
   "dependencies": {
     "commander": "^15.0.0"
-  }
+  },
+  "devDependencies": {}
 }
